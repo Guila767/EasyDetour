@@ -18,8 +18,8 @@ namespace EasyDetour
 	class EasyDetour
 	{
 	public:
-		typedef R(T::* DETOUR_CLASS_FUNCTION)(Types...);
-		typedef R(*DETOUR_FUNCTION)(T*, Types...);
+		typedef R(T::* DETOUR_CLASS_FUNCTION)(Types* ...);
+		typedef R(*DETOUR_FUNCTION)(T*, Types* ...);
 		typedef R(*TARGET_FUNCTION)(Types...);
 
 		EasyDetour(T* pClassIntance, TARGET_FUNCTION lpTargetFunction)
@@ -95,7 +95,7 @@ namespace EasyDetour
 
 	private:
 		T* const pInstance;
-		uint32_t bitFlag;
+		uint8_t bitFlag;
 		const TARGET_FUNCTION lpTargetFunction;
 		TARGET_FUNCTION lpTrampolineFunction;
 
@@ -137,7 +137,10 @@ namespace EasyDetour
 				if (pCallCmd.type == NEAR_ABSOLUTE_CALL)
 				{
 					if (pCallCmd.types.callMPTR.reg == REG_EBP)
-						lpHookFunction = (void*)(*(intptr_t*)(*((intptr_t*)stackR) + pCallCmd.types.callMPTR.offset));
+					{
+						const void* basePointer = (void*)((char*)stackR - sizeof(void*));
+						lpHookFunction = (void*)(*(intptr_t*)(*((intptr_t*)basePointer) + pCallCmd.types.callMPTR.offset));
+					}
 					else
 						lpHookFunction = nullptr;
 				}
@@ -164,12 +167,12 @@ namespace EasyDetour
 			if (pInstance->isClassFunction())
 			{
 				T* const klass = pInstance->pInstance;
-				(*klass.*pInstance->lpDetourFunction.lpClassFunction)(args...);
+				(*klass.*pInstance->lpDetourFunction.lpClassFunction)(&args...);
 				//(*(pInstance->pInstance).*pInstance->lpDetourFunction.lpClassFunction)(args...);
 			}
 			else
 			{
-				pInstance->lpDetourFunction.lpDetourFunction(pInstance->pInstance, args...);
+				pInstance->lpDetourFunction.lpDetourFunction(pInstance->pInstance, &args...);
 			}
 			return pInstance->lpTrampolineFunction(args...);
 		}

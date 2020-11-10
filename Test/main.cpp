@@ -4,7 +4,12 @@
 
 void DummyFun(int val)
 {
-	std::cout << "DummyFun! \n";
+	std::cout << "DummyFun! " << val << std::endl;
+}
+
+void CallDummyFunPtr(void(*pDummyFun)(int), int value)
+{
+	pDummyFun(value);
 }
 
 class DummyClass
@@ -15,7 +20,7 @@ public:
 
 	}
 
-	void DetourTest(int val)
+	void DetourTest(int* val)
 	{
 		std::cout << "DetourFun klass! \n";
 	}
@@ -28,14 +33,16 @@ int main()
 	DummyClass klass;
 	EasyDetour::EasyDetour<DummyClass, void, int> easyDet(&klass, DummyFun);
 	
-	//easyDet.HookFunction(&DummyClass::DetourTest);
+	easyDet.HookFunction(&DummyClass::DetourTest);
 	
-	easyDet.HookFunction([](DummyClass* klass, int val)
+	easyDet.HookFunction([](DummyClass* klass, int* val)
 	{
 		std::cout << klass->value << std::endl;
+		*val += 50;
 	});
 	
 	DummyFun(4);
+	CallDummyFunPtr(DummyFun, 10);
 
 	return 0;
 }
