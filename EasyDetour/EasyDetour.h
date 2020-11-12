@@ -37,7 +37,10 @@ namespace EasyDetour
 		~EasyDetour()
 		{
 			if (isFunHooked())
+			{
+				easydetour_internals::__easy_detour_Iternal_class::_removeDetourInstance(lpTargetFunction);
 				UnHookFunction();
+			}
 		}
 
 		bool HookFunction(DETOUR_CLASS_FUNCTION lpClassFunction)
@@ -94,6 +97,7 @@ namespace EasyDetour
 				DetourDetach((LPVOID*)&this->lpTrampolineFunction, (PVOID)&GenericDetour);
 				if (DetourTransactionCommit() == NO_ERROR)
 				{
+					easydetour_internals::__easy_detour_Iternal_class::_removeDetourInstance(lpTargetFunction);
 					isFunHooked(false);
 					return true;
 				}
