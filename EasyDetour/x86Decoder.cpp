@@ -33,6 +33,11 @@ bool decodeCall(const void* const retAddrs, PCallCommand pCallCmd)
 			{
 			case NONE:
 			{
+				// Call register
+				// 0xff d0 - d7
+				// Call Mem. pointer register with no offset
+				// 0xff 0x10 - 0x13 | 0xff 0x16 - 0x17
+				// 0xff 0x14 0x22 -> call [esp] // No real use?
 				break;
 			}
 			case CMD_PUSH:
