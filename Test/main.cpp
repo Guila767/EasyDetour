@@ -30,10 +30,10 @@ public:
 		: value(0xFF)
 	{}
 
-	float DetourTest(float(*lpFun)(int), int* val)
+	float DetourTest(float(*lpFun)(int), int val)
 	{
 		std::cout << "Class detour function! \n";
-		return lpFun(*val) + 50;
+		return lpFun(val) + 50;
 	}
 	
 	int value;
@@ -70,12 +70,12 @@ int main()
 
 	auto detour_LambdaExample = EasyDetour::make_detour(&klass, &Add500);
 	
-	const bool result = detour_LambdaExample.HookFunction([](auto klass, int(*lpOriginalFun)(int), int* val)
+	const bool result = detour_LambdaExample.HookFunction([](auto klass, int(*lpOriginalFun)(int), int val)
 	{
-		klass->value = *val;
-		*val = 1000;
+		klass->value = val;
+		val = 1000;
 		std::cout << "lambda detour function" << std::endl;
-		return lpOriginalFun(*val);
+		return lpOriginalFun(val);
 	});
 
 	if (!result)

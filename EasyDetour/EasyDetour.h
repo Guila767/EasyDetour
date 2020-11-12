@@ -20,8 +20,8 @@ namespace EasyDetour
 	{
 	public:
 		typedef R(*TARGET_FUNCTION)(Types...);
-		typedef R(T::*DETOUR_CLASS_FUNCTION)(TARGET_FUNCTION, Types* ...);
-		typedef R(*DETOUR_FUNCTION)(T*, TARGET_FUNCTION, Types* ...);
+		typedef R(T::*DETOUR_CLASS_FUNCTION)(TARGET_FUNCTION, Types ...);
+		typedef R(*DETOUR_FUNCTION)(T*, TARGET_FUNCTION, Types ...);
 
 		EasyDetour(T* pClassIntance, TARGET_FUNCTION lpTargetFunction)
 			: pInstance(pClassIntance), lpTargetFunction(lpTargetFunction), bitFlag(0)
@@ -184,9 +184,9 @@ namespace EasyDetour
 			if (pInstance->isClassFunction())
 			{
 				T* const klass = pInstance->pInstance;
-				return (*klass.*pInstance->lpDetourFunction.lpClassFunction)(pInstance->lpTrampolineFunction, &args...);
+				return (*klass.*pInstance->lpDetourFunction.lpClassFunction)(pInstance->lpTrampolineFunction, args...);
 			}
-			return pInstance->lpDetourFunction.lpDetourFunction(pInstance->pInstance, pInstance->lpTrampolineFunction, &args...);
+			return pInstance->lpDetourFunction.lpDetourFunction(pInstance->pInstance, pInstance->lpTrampolineFunction, args...);
 		}
 	};
 
