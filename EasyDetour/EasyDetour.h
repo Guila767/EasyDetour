@@ -1,4 +1,9 @@
 #pragma once
+
+#ifdef _M_ARM_
+#error Does't support ARM
+#endif
+
 #define WIN32_LEAN_AND_MEN
 #include <Windows.h>
 #include <inttypes.h>
