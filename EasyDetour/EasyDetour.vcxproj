@@ -112,6 +112,13 @@
     <Lib>
       <AdditionalLibraryDirectories>$(ProjectDir)lib.X86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
+    <PreBuildEvent>
+      <Command>mkdir $(SolutionDir)$(PlatformTarget).lib &amp; set ErrorLevel=0</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /I $(ProjectDir)*.h $(SolutionDir)include
+xcopy /Y /I $(TargetPath) $(SolutionDir)$(PlatformTarget).lib</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -139,6 +146,13 @@
     <Lib>
       <AdditionalLibraryDirectories>$(ProjectDir)lib.X86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
+    <PreBuildEvent>
+      <Command>mkdir $(SolutionDir)$(PlatformTarget).lib &amp; set ErrorLevel=0</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /I $(ProjectDir)*.h $(SolutionDir)include
+xcopy /Y /I $(TargetPath) $(SolutionDir)$(PlatformTarget).lib</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -162,6 +176,13 @@
     <Lib>
       <AdditionalLibraryDirectories>$(ProjectDir)lib.X64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
+    <PreBuildEvent>
+      <Command>mkdir $(SolutionDir)$(PlatformTarget).lib &amp; set ErrorLevel=0</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /I $(ProjectDir)*.h $(SolutionDir)include
+xcopy /Y /I $(TargetPath) $(SolutionDir)$(PlatformTarget).lib</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -189,6 +210,13 @@
     <Lib>
       <AdditionalLibraryDirectories>$(ProjectDir)lib.X64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
+    <PreBuildEvent>
+      <Command>mkdir $(SolutionDir)$(PlatformTarget).lib &amp; set ErrorLevel=0</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y /I $(ProjectDir)*.h $(SolutionDir)include
+xcopy /Y /I $(TargetPath) $(SolutionDir)$(PlatformTarget).lib</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
